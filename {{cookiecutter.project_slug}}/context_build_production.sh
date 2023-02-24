@@ -28,9 +28,10 @@ Help()
 if [ "$1" = "help" ]; then
     Help
 elif [ "$1" = "build" ]; then
-
+    echo "====== BUILDING production-ts.yml"
     docker-compose -f production-ts.yml build
 elif [ "$1" = "up" ]; then
+    echo "====== STARTING PRODUCTION"
     docker-compose -f production-ts.yml up
 else 
     echo "context_build_production.sh: Invalid Command. Use the Help module by running ./context_build_production.sh help"

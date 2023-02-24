@@ -28,8 +28,10 @@ Help()
 if [ "$1" = "help" ]; then
     Help
 elif [ "$1" = "build" ]; then
+    echo "====== BUILDING local-ts.yml"
     docker-compose -f local-ts.yml build
 elif [ "$1" = "up" ]; then
+    echo "====== STARTING LOCAL"
     docker-compose -f local-ts.yml up
 else 
     echo "context_local_ts.sh: Invalid Command. Use the Help module by running ./context_local_ts.sh help"
