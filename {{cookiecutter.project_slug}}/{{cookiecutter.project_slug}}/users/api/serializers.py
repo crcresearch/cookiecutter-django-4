@@ -4,13 +4,8 @@ from rest_framework import serializers
 
 User = get_user_model()
 
-class GroupSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Group
-        fields = ["name"]
-
 class UserSerializer(serializers.ModelSerializer):
-    groups = GroupSerializer(many=True)
+    groups = serializers.SlugRelatedField(queryset=Group.objects.all(), many=True, slug_field='name', required=False)
 
     class Meta:
         model = User
@@ -19,3 +14,12 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "url": {"view_name": "api:user-detail", "lookup_field": "username"}
         }
+
+    def update(self, instance, validated_data):
+        groups_data = validated_data.pop("groups", None)
+        instance = super().update(instance, validated_data)
+
+        if groups_data is not None:
+            instance.groups.set(groups_data)
+
+        return instance
